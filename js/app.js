@@ -59,7 +59,6 @@ const addModalContainer = () => {
 //Runs addModalContainer function
 addModalContainer();
 
-
 const displayModal = (index) => {
     // use object destructuring make our template literal cleaner
     let { name, dob, phone, email, location: { city, street, state, postcode
@@ -81,7 +80,7 @@ const displayModal = (index) => {
                         <p class="modal-text">${email}</p>
                         <p class="modal-text cap">${city}</p>
                         <hr>
-                        <p class="modal-text">(555) 555-5555</p>
+                        <p class="modal-text">${phoneFormatted}</p>
                         <p class="modal-text">${street.number} ${street.name}, ${stateAbbreviation}, ${postcode}</p>
                         <p class="modal-text">Birthday: ${dateMonth}/${dateDay}/${dateYear}</p>
                     </div>
@@ -126,8 +125,8 @@ const employeeSearch = () => {
     })
 }
 
-//Add event listener to search input on keyup
-document.getElementById('search-input').addEventListener("keyup", employeeSearch);
+//Add event listener to submit search button
+document.getElementById('search-submit').addEventListener('click', employeeSearch);
 
 //Adds event listener to gallery
 document.getElementById('gallery').addEventListener('click', e => {
@@ -140,7 +139,7 @@ document.getElementById('gallery').addEventListener('click', e => {
 
 //Add event listener to body and check to see if modal close button was clicked
 document.querySelector('body').addEventListener('click', (e) => {
-    if (e.target.parentElement.id === 'modal-close-btn' && e.target.innerText == 'X') {
+    if (e.target.parentElement.id === 'modal-close-btn') {
         const modalContainer = document.querySelector('.modal-container');
         modalContainer.style.display = 'none';
     }
@@ -152,7 +151,6 @@ document.querySelector('body').addEventListener('click', (e) => {
     if (e.target.id === 'modal-prev') {
         const modalElement = document.querySelector('.modal-info-container');
         const currentIndex = parseInt(modalElement.getAttribute('data-index'));
-        console.log(currentIndex)
         const previousIndex = currentIndex - 1;
         if (previousIndex >= 0) {
             displayModal(previousIndex);
@@ -167,9 +165,7 @@ document.querySelector('body').addEventListener('click', (e) => {
         const cards = document.querySelectorAll('.card');
         const maxIndex = cards.length - 1;
         const currentIndex = parseInt(modalElement.getAttribute('data-index'));
-        console.log(currentIndex);
         const nextIndex = currentIndex + 1;
-        console.log(nextIndex)
         if (nextIndex <= maxIndex) {
             displayModal(nextIndex);
         }
