@@ -119,6 +119,21 @@ header h1 {
     text-transform: capitalize;
 }
 
+/* Error*/
+.error {
+    color: red;
+    font-size: 20px;
+    margin: 0 auto;
+    width: 300px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 1rem;
+}
+
+.error p {
+    padding-bottom: 1rem;
+}
+
 
 /* ===================================== 
    Modal
@@ -206,6 +221,8 @@ header h1 {
     transition: .4s ease-out;
     outline: none;
   }
+
+
   
 
 /* ===================================== 
