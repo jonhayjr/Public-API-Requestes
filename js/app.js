@@ -18,7 +18,7 @@ const displayEmployees = (employeeData) => {
         let picture = employee.picture;
  
     employeeHTML += `
-    <div class="card" data-index="${index}">
+    <div class="card" data-index="${index}" data-employee="${name.first} ${name.last}">
     <div class="card-img-container">
         <img class="card-img" src="${picture.large}" alt="${name.first} ${name.last}">
     </div>
@@ -108,6 +108,26 @@ const addSearchBar = () => {
 
 //Runs addSearchBar function
 addSearchBar();
+
+//Adds employee search logic
+const employeeSearch = () => {
+    const searchBar = document.getElementById('search-input');
+    const cards = document.querySelectorAll('.card');
+    const searchInput = searchBar.value.toLowerCase();
+    const searchInputLength = searchInput.length;
+
+    cards.forEach(card => {
+        let employeeName = card.getAttribute("data-employee").toLowerCase(); 
+        if (employeeName.indexOf(searchInput) >= 0) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+    })
+}
+
+//Add event listener to search input on keyup
+document.getElementById('search-input').addEventListener("keyup", employeeSearch);
 
 //Adds event listener to gallery
 document.getElementById('gallery').addEventListener('click', e => {
