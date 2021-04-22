@@ -125,7 +125,7 @@ const employeeSearch = () => {
     //Loops through each employee card
     cards.forEach(card => {
         //Pulls employee name from data-employee attribute
-        let employeeName = card.getAttribute("data-employee").toLowerCase(); 
+        let employeeName = card.getAttribute('data-employee').toLowerCase(); 
         //If the employee name contains the search input text, then it is displayed.  If not, it is hidden.
         if (employeeName.indexOf(searchInput) >= 0) {
             card.style.display = '';
@@ -141,7 +141,7 @@ document.querySelector('form').addEventListener('submit', employeeSearch);
 //Adds event listener to gallery element
 document.getElementById('gallery').addEventListener('click', e => {
     //Select the card element based on its proximity to actual element clicked
-    const card = e.target.closest(".card");
+    const card = e.target.closest('.card');
     //Grab index from data-index attribute
     const index = card.getAttribute('data-index');
     //Pass index into displayModal function
