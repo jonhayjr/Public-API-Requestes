@@ -16,7 +16,7 @@ const displayEmployees = (employeeData) => {
         let city = employee.location.city;
         let state = employee.location.state;
         let picture = employee.picture;
- 
+    //Adds HTML content based on API data
     employeeHTML += `
     <div class="card" data-index="${index}" data-employee="${name.first} ${name.last}">
     <div class="card-img-container">
@@ -29,6 +29,7 @@ const displayEmployees = (employeeData) => {
     </div>
     </div>`
     });
+    //Adds HTML to gallery element
     gallery.insertAdjacentHTML('beforeEnd', employeeHTML);
 }
 
@@ -36,8 +37,8 @@ const displayEmployees = (employeeData) => {
 const displayError = (err) => {
     const gallery = document.getElementById('gallery');
     let errorHTML = '<div class="error"><p>Sorry, something went wrong.  Please refresh the page and try again.</p><img src="img/error.png"></div>';
+    //Adds error HTML to gallery element
     gallery.insertAdjacentHTML('beforeEnd', errorHTML);
-    console.log(err);
 }
 
 
@@ -56,21 +57,25 @@ const addModalContainer = () => {
     document.getElementById('gallery').insertAdjacentElement('afterend', div);
 }
 
-//Runs addModalContainer function
-addModalContainer();
-
 const displayModal = (index) => {
+    //Checks if modal container already exists.  If it doesn't, it is added to the page.
+    const modalDiv = document.querySelector('.modal-container');
+    if (!modalDiv) {
+        addModalContainer();
+    }
     // use object destructuring make our template literal cleaner
     let { name, dob, phone, email, location: { city, street, state, postcode
     }, picture } = employees[index];
+    //Formats birthdate
     let date = new Date(dob.date);
     let dateMonth = date.getMonth() + 1;
     let dateDay = date.getDate();
     let dateYear = date.getFullYear();
+    //Formats phone number
     let phoneFormatted = phone.toString().replace('-', ' ');
-    let stateAbbreviation = state;
     const modalContainer = document.querySelector('.modal-container');
 
+    //Create HTML element based on API data
     const modalHTML = `
                 <div class="modal">
                     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -81,7 +86,7 @@ const displayModal = (index) => {
                         <p class="modal-text cap">${city}</p>
                         <hr>
                         <p class="modal-text">${phoneFormatted}</p>
-                        <p class="modal-text">${street.number} ${street.name}, ${stateAbbreviation}, ${postcode}</p>
+                        <p class="modal-text">${street.number} ${street.name}, ${state}, ${postcode}</p>
                         <p class="modal-text">Birthday: ${dateMonth}/${dateDay}/${dateYear}</p>
                     </div>
                 </div>
@@ -90,11 +95,13 @@ const displayModal = (index) => {
                     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
                     <button type="button" id="modal-next" class="modal-next btn">Next</button>
                 </div>`;
+    //Update Modal Container HTML to Modal HTML
     modalContainer.innerHTML = modalHTML;
+    //Unhides Modal Container
     modalContainer.style.display = '';
 }
 
-//This function adds searchbar HTML to the page
+//Function to add searchbar HTML to the page
 const addSearchBar = () => {
     const searchContainer = document.querySelector('.search-container');
     const HTML =
@@ -115,23 +122,27 @@ const employeeSearch = () => {
     const searchInput = searchBar.value.toLowerCase();
     const searchInputLength = searchInput.length;
 
+    //Loops through each employee card
     cards.forEach(card => {
+        //Pulls employee name from data-employee attribute
         let employeeName = card.getAttribute("data-employee").toLowerCase(); 
+        //If the employee name contains the search input text, then it is displayed.  If not, it is hidden.
         if (employeeName.indexOf(searchInput) >= 0) {
-            card.style.display = "";
+            card.style.display = '';
         } else {
-            card.style.display = "none";
+            card.style.display = 'none';
         }
     })
 }
 
-//Add event listener to submit search button
-document.getElementById('search-submit').addEventListener('click', employeeSearch);
+//Add event listener on the search form that checks for submit
+document.querySelector('form').addEventListener('submit', employeeSearch);
 
-//Adds event listener to gallery
+//Adds event listener to gallery element
 document.getElementById('gallery').addEventListener('click', e => {
-    // select the card element based on its proximity to actual element clicked
+    //Select the card element based on its proximity to actual element clicked
     const card = e.target.closest(".card");
+    //Grab index from data-index attribute
     const index = card.getAttribute('data-index');
     //Pass index into displayModal function
     displayModal(index);
@@ -146,26 +157,33 @@ document.querySelector('body').addEventListener('click', (e) => {
 });
 
 
-//Add event listener to body and check to see if Previous button was pressed
+//Add event listener to the body and check to see if previous button was clicked
 document.querySelector('body').addEventListener('click', (e) => {
     if (e.target.id === 'modal-prev') {
         const modalElement = document.querySelector('.modal-info-container');
+        //Gets current element index.
         const currentIndex = parseInt(modalElement.getAttribute('data-index'));
+        //Gets previous index by subtracting one from current index
         const previousIndex = currentIndex - 1;
+        //Checks to make sure that index is greater than one. If it is, the modal is displayed.
         if (previousIndex >= 0) {
             displayModal(previousIndex);
         }
     }
 });
 
-//Add event listener to check to see if Next button was pressed
+//Add event listener to check to see if next button was clicked
 document.querySelector('body').addEventListener('click', (e) => {
     if (e.target.id === 'modal-next') {
         const modalElement = document.querySelector('.modal-info-container');
         const cards = document.querySelectorAll('.card');
+        //Gets the max index based on the total number of employee cards minus one
         const maxIndex = cards.length - 1;
+        //Gets the index from the current element
         const currentIndex = parseInt(modalElement.getAttribute('data-index'));
+        //Gets next index by adding one to the current index
         const nextIndex = currentIndex + 1;
+        //Checks to make sure that the next index is great than or equal to the max index.  If it is, the modal is displayed.
         if (nextIndex <= maxIndex) {
             displayModal(nextIndex);
         }
