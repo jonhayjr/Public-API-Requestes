@@ -42,6 +42,7 @@ header h1 {
     max-width: 20rem;
     transition: .4s ease-out;
     outline: none;
+    font-family: "Raleway", sans-serif;
 }
 
 .search-input:active, .search-input:hover, .search-input:focus {
