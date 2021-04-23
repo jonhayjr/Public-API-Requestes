@@ -3,16 +3,16 @@ This projects uses a Random User Generator API to pull data 12 random employees 
 
 ## Customizations
 
-1. Font Style
+1. Font Style  
 Changed font to Raleway.
 
-1. Background Color
+1. Background Color    
 Changed main background color to a dark shade of gray (#999999).
 
-1. Header Text Color And Text Shadow
+1. Header Text Color And Text Shadow  
 Changes header text color to a shade of white (rgba(255, 255, 255, 0.801) and added a text shadow effect..
 
-1. Card Hover Effect
+1. Card Hover Effect  
 Added transform property to increase scale along with a box shadow.
 
 **Click below for a preview**\
