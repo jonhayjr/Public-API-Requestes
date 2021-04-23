@@ -86,7 +86,7 @@ const displayModal = (index) => {
                         <p class="modal-text cap">${city}</p>
                         <hr>
                         <p class="modal-text">${phoneFormatted}</p>
-                        <p class="modal-text">${street.number} ${street.name}, ${state}, ${postcode}</p>
+                        <p class="modal-text">${street.number} ${street.name}, ${city}, ${state}, ${postcode}</p>
                         <p class="modal-text">Birthday: ${dateMonth}/${dateDay}/${dateYear}</p>
                     </div>
                 </div>
