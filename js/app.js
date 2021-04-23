@@ -135,8 +135,8 @@ const employeeSearch = () => {
     })
 }
 
-//Add event listener on the search form that checks for submit
-document.querySelector('form').addEventListener('submit', employeeSearch);
+//Add event listener on the search submit button
+document.querySelector('#search-submit').addEventListener('click', employeeSearch);
 
 //Adds event listener to gallery element
 document.getElementById('gallery').addEventListener('click', e => {
