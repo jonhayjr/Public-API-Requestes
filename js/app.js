@@ -150,7 +150,8 @@ document.getElementById('gallery').addEventListener('click', e => {
 
 //Add event listener to body and check to see if modal close button was clicked
 document.querySelector('body').addEventListener('click', (e) => {
-    if (e.target.parentElement.id === 'modal-close-btn') {
+    //Checks to see if strong element with HTML of X is clicked or the button element is clicked
+    if ((e.target.innerHTML === 'X' && e.target.nodeName === 'STRONG') || e.target.id === 'modal-close-btn') {
         const modalContainer = document.querySelector('.modal-container');
         modalContainer.style.display = 'none';
     }
