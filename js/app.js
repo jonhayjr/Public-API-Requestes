@@ -68,9 +68,9 @@ const displayModal = (index) => {
     }, picture } = employees[index];
     //Formats birthdate
     let date = new Date(dob.date);
-    let dateMonth = date.getMonth() + 1;
-    let dateDay = date.getDate();
-    let dateYear = date.getFullYear();
+    let dateMonth = (date.getMonth() + 1).toString().padStart(2, "0"); //Adds one to value since it's zero based and pads with 0
+    let dateDay = date.getDate().toString().padStart(2, "0"); //Pads with 0
+    let dateYear = date.getFullYear().toString().substr(-2); //Only Includes last two digits of year
     //Formats phone number
     let phoneFormatted = phone.toString().replace('-', ' ');
     const modalContainer = document.querySelector('.modal-container');

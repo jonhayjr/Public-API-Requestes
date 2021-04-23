@@ -9,8 +9,8 @@ Changed font to Raleway.
 1. Background Color
 Changed main background color to a dark shade of gray (#999999).
 
-1. Header Text Color
-Change header text color to a shade of white (rgba(255, 255, 255, 0.801).
+1. Header Text Color And Text Shadow
+Changes header text color to a shade of white (rgba(255, 255, 255, 0.801) and added a text shadow effect..
 
 1. Card Hover Effect
 Added transform property to increase scale along with a box shadow.
