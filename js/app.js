@@ -66,7 +66,7 @@ const displayModal = (index) => {
     // use object destructuring make our template literal cleaner
     let { name, dob, phone, email, location: { city, street, state, postcode
     }, picture } = employees[index];
-    //Formats birthdate
+ 
     let date = new Date(dob.date);
     let dateMonth = (date.getMonth() + 1).toString().padStart(2, "0"); //Adds one to value since it's zero based and pads with 0
     let dateDay = date.getDate().toString().padStart(2, "0"); //Pads with 0
@@ -161,10 +161,16 @@ document.querySelector('body').addEventListener('click', (e) => {
 document.querySelector('body').addEventListener('click', (e) => {
     if (e.target.id === 'modal-prev') {
         const modalElement = document.querySelector('.modal-info-container');
+        const cards = document.querySelectorAll('.card');
         //Gets current element index.
         const currentIndex = parseInt(modalElement.getAttribute('data-index'));
         //Gets previous index by subtracting one from current index
-        const previousIndex = currentIndex - 1;
+        let previousIndex = currentIndex - 1;
+
+        //Looks for card that isn't hidden.  Subtracts 1 from previousIndex until that card is found.
+        while (cards[previousIndex] && cards[previousIndex].style.display === 'none' && previousIndex >= 0) {
+            previousIndex--;
+        }
         //Checks to make sure that index is greater than one. If it is, the modal is displayed.
         if (previousIndex >= 0) {
             displayModal(previousIndex);
@@ -182,7 +188,12 @@ document.querySelector('body').addEventListener('click', (e) => {
         //Gets the index from the current element
         const currentIndex = parseInt(modalElement.getAttribute('data-index'));
         //Gets next index by adding one to the current index
-        const nextIndex = currentIndex + 1;
+        let nextIndex = currentIndex + 1;
+
+        //Looks for card that isn't hidden.  Add 1 to nextIndex until that card is found.
+        while (cards[nextIndex] && nextIndex <= maxIndex && cards[nextIndex].style.display === 'none') {
+            nextIndex++;
+        }
         //Checks to make sure that the next index is great than or equal to the max index.  If it is, the modal is displayed.
         if (nextIndex <= maxIndex) {
             displayModal(nextIndex);
