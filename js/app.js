@@ -60,6 +60,7 @@ const addModalContainer = () => {
 const displayModal = (index) => {
     //Checks if modal container already exists.  If it doesn't, it is added to the page.
     const modalDiv = document.querySelector('.modal-container');
+ 
     if (!modalDiv) {
         addModalContainer();
     }
@@ -116,7 +117,9 @@ const addSearchBar = () => {
 addSearchBar();
 
 //Adds employee search logic
-const employeeSearch = () => {
+const employeeSearch = (e) => {
+    //prevents form from being submitted which refreshes the page
+    e.preventDefault();
     const searchBar = document.getElementById('search-input');
     const cards = document.querySelectorAll('.card');
     const searchInput = searchBar.value.toLowerCase();
