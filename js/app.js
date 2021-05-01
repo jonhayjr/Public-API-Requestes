@@ -16,6 +16,8 @@ const displayEmployees = (employeeData) => {
         let city = employee.location.city;
         let state = employee.location.state;
         let picture = employee.picture;
+
+
     //Adds HTML content based on API data
     employeeHTML += `
     <div class="card" data-index="${index}" data-employee="${name.first} ${name.last}">
@@ -67,7 +69,7 @@ const displayModal = (index) => {
     // use object destructuring make our template literal cleaner
     let { name, dob, phone, email, location: { city, street, state, postcode
     }, picture } = employees[index];
- 
+
     let date = new Date(dob.date);
     let dateMonth = (date.getMonth() + 1).toString().padStart(2, "0"); //Adds one to value since it's zero based and pads with 0
     let dateDay = date.getDate().toString().padStart(2, "0"); //Pads with 0
