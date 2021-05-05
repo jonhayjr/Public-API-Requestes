@@ -121,6 +121,10 @@ header h1 {
     text-transform: capitalize;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Error*/
 .error {
     color: red;

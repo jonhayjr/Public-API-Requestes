@@ -20,7 +20,7 @@ const displayEmployees = (employeeData) => {
 
     //Adds HTML content based on API data
     employeeHTML += `
-    <div class="card" data-index="${index}" data-employee="${name.first} ${name.last}">
+    <div class="card active" data-index="${index}" data-employee="${name.first} ${name.last}">
     <div class="card-img-container">
         <img class="card-img" src="${picture.large}" alt="${name.first} ${name.last}">
     </div>
@@ -131,11 +131,13 @@ const employeeSearch = (e) => {
     cards.forEach(card => {
         //Pulls employee name from data-employee attribute
         let employeeName = card.getAttribute('data-employee').toLowerCase(); 
-        //If the employee name contains the search input text, then it is displayed.  If not, it is hidden.
+        //If the employee name contains the search input text, then active class is added.  If not, hidden class is added.
         if (employeeName.indexOf(searchInput) >= 0) {
-            card.style.display = '';
+            card.classList.remove('hidden');
+            card.classList.add('active')
         } else {
-            card.style.display = 'none';
+            card.classList.remove('active');
+            card.classList.add('hidden')
         }
     })
 }
@@ -145,12 +147,15 @@ document.querySelector('#search-submit').addEventListener('click', employeeSearc
 
 //Adds event listener to gallery element
 document.getElementById('gallery').addEventListener('click', e => {
-    //Select the card element based on its proximity to actual element clicked
-    const card = e.target.closest('.card');
-    //Grab index from data-index attribute
-    const index = card.getAttribute('data-index');
-    //Pass index into displayModal function
-    displayModal(index);
+    //Checks to make sure that gallery element isn't clicked
+    if (e.target.id !== 'gallery') {
+        //Select the card element based on its proximity to actual element clicked
+        const card = e.target.closest('.card');
+        //Grab index from data-index attribute
+        const index = card.getAttribute('data-index');
+        //Pass index into displayModal function
+        displayModal(index);
+    }
 });
 
 //Add event listener to body and check to see if modal close button was clicked
@@ -162,47 +167,70 @@ document.querySelector('body').addEventListener('click', (e) => {
     }
 });
 
+//This function gets the previous or next element's data-index value
+const previousNextDataIndex = (buttonText) => {
+    //Gets Current Modal Element
+    const modalElement = document.querySelector('.modal-info-container');
+
+    //All active cards
+    const cardsActive = document.querySelectorAll('.active');
+
+    //Last active card item
+    const cardsActiveLastElement = cardsActive.length - 1;
+
+    //Gets the data-index of last element
+    const maxDataIndex = parseInt(cardsActive[cardsActiveLastElement].getAttribute('data-index'));
+
+    //Gets data-index of first element
+    const minDataIndex = parseInt(cardsActive[0].getAttribute('data-index'));
+
+    //Gets the data-index of current modal element
+    const currentDataIndex = parseInt(modalElement.getAttribute('data-index'));
+
+    //Gets position of this data-index value in cardsActive node list
+    const cardsActiveIndex = [...cardsActive].findIndex(card => parseInt(card.attributes[1].value) === currentDataIndex);
+
+    //Gets next index by adding one to the cardsActiveIndex.  If the value is greater than cardActiveLastElement, 0 is used.
+    const nextIndex = cardsActiveIndex + 1 <= cardsActiveLastElement ? cardsActiveIndex + 1 : 0;
+
+    //Gets data-index value for the next item
+    const nextDataIndex = parseInt(cardsActive[nextIndex].getAttribute('data-index'));
+
+    //Gets data-index value by subtracting 1 from the cardsActiveIndex.  If the value is less than 0, the cardsActiveLastElement value is used.
+    const previousIndex = cardsActiveIndex - 1 >= 0 ? cardsActiveIndex - 1 : cardsActiveLastElement;
+
+    //Gets data-index for the previous item
+    const previousDataIndex = parseInt(cardsActive[previousIndex].getAttribute('data-index'));
+
+    if (buttonText === 'next') {
+        return nextDataIndex;
+    } else if (buttonText === 'previous') {
+        return previousDataIndex;
+    }
+}
 
 //Add event listener to the body and check to see if previous button was clicked
 document.querySelector('body').addEventListener('click', (e) => {
     if (e.target.id === 'modal-prev') {
-        const modalElement = document.querySelector('.modal-info-container');
-        const cards = document.querySelectorAll('.card');
-        //Gets current element index.
-        const currentIndex = parseInt(modalElement.getAttribute('data-index'));
-        //Gets previous index by subtracting one from current index
-        let previousIndex = currentIndex - 1;
+        //Get previous data-index value
+       const previousDataIndex = previousNextDataIndex('previous');
 
-        //Looks for card that isn't hidden.  Subtracts 1 from previousIndex until that card is found.
-        while (cards[previousIndex] && cards[previousIndex].style.display === 'none' && previousIndex >= 0) {
-            previousIndex--;
-        }
-        //Checks to make sure that index is greater than one. If it is, the modal is displayed.
-        if (previousIndex >= 0) {
-            displayModal(previousIndex);
-        }
+       //Display modal with that data-index value
+       displayModal(previousDataIndex);
     }
 });
 
 //Add event listener to check to see if next button was clicked
 document.querySelector('body').addEventListener('click', (e) => {
     if (e.target.id === 'modal-next') {
-        const modalElement = document.querySelector('.modal-info-container');
-        const cards = document.querySelectorAll('.card');
-        //Gets the max index based on the total number of employee cards minus one
-        const maxIndex = cards.length - 1;
-        //Gets the index from the current element
-        const currentIndex = parseInt(modalElement.getAttribute('data-index'));
-        //Gets next index by adding one to the current index
-        let nextIndex = currentIndex + 1;
+        //Get next data-index value
+        const nextDataIndex = previousNextDataIndex('next');
 
-        //Looks for card that isn't hidden.  Add 1 to nextIndex until that card is found.
-        while (cards[nextIndex] && nextIndex <= maxIndex && cards[nextIndex].style.display === 'none') {
-            nextIndex++;
-        }
-        //Checks to make sure that the next index is great than or equal to the max index.  If it is, the modal is displayed.
-        if (nextIndex <= maxIndex) {
-            displayModal(nextIndex);
-        }
+        //Display modal with that data-index value
+        displayModal(nextDataIndex);
     }
 })
+
+
+
+
